@@ -14,7 +14,21 @@ export class PokemonService {
 
   buscarPokemon() {
     return this.http.get<any>(this.apiPokemon).pipe(
-      map(res => res.results)
+      map(res => {
+        return res.results.map((pokemon: any) =>{
+          const id = this.extractID(pokemon.url)
+          return {
+            name: pokemon.name,
+            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
+            id: id
+          }
+        })
+      })
     )
+  }
+
+  private extractID(url: string) {
+    const parts = url.split('/').filter(part => part)
+    return parts[parts.length - 1]
   }
 }
