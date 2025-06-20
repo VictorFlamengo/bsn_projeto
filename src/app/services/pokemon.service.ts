@@ -27,6 +27,11 @@ export class PokemonService {
     )
   }
 
+  buscarPokemonById(id: string) {
+  const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
+  return this.http.get<any>(url);
+}
+
   private extractID(url: string) {
     const parts = url.split('/').filter(part => part)
     return parts[parts.length - 1]
